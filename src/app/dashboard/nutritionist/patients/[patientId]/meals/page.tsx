@@ -1,12 +1,12 @@
-import { auth } from "@/lib/auth"
-import { prisma } from "@/lib/prisma"
-import { notFound } from "next/navigation"
-import { format } from "date-fns"
-import { ptBR } from "date-fns/locale"
-import Link from "next/link"
-import { ArrowLeft } from "lucide-react"
-import { Card, CardContent } from "@/components/ui/card"
-import MealCommentForm from "@/components/nutritionist/MealCommentForm"
+import { auth } from "@/lib/auth";
+import { prisma } from "@/lib/prisma";
+import { notFound } from "next/navigation";
+import { format } from "date-fns";
+import { ptBR } from "date-fns/locale";
+import Link from "next/link";
+import { ArrowLeft } from "lucide-react";
+import { Card, CardContent } from "@/components/ui/card";
+import MealCommentForm from "@/components/nutritionist/MealCommentForm";
 
 const mealTypeLabel: Record<string, string> = {
   BREAKFAST: "Café da manhã",
@@ -16,21 +16,21 @@ const mealTypeLabel: Record<string, string> = {
   DINNER: "Jantar",
   SUPPER: "Ceia",
   OTHER: "Outro",
-}
+};
 
 export default async function PatientMealsPage({
   params,
 }: {
-  params: Promise<{ patientId: string }>
+  params: Promise<{ patientId: string }>;
 }) {
-  const { patientId } = await params
-  const session = await auth()
-  const nutritionistId = session!.user.id
+  const { patientId } = await params;
+  const session = await auth();
+  const nutritionistId = session!.user.id;
 
   const link = await prisma.patientNutritionist.findUnique({
     where: { patientId_nutritionistId: { patientId, nutritionistId } },
-  })
-  if (!link) notFound()
+  });
+  if (!link) notFound();
 
   const [patient, meals] = await Promise.all([
     prisma.user.findUnique({ where: { id: patientId } }),
@@ -40,14 +40,21 @@ export default async function PatientMealsPage({
       take: 30,
       include: { comments: true },
     }),
-  ])
+  ]);
 
-  if (!patient) notFound()
+  if (!patient) notFound();
+
+  // 1. Extraímos os tipos da resposta do Prisma
+  type MealType = (typeof meals)[number];
+  type CommentType = MealType["comments"][number];
 
   return (
     <div className="space-y-6">
       <div className="flex items-center gap-3">
-        <Link href={`/dashboard/nutritionist/patients/${patientId}`} className="text-gray-400 hover:text-gray-600">
+        <Link
+          href={`/dashboard/nutritionist/patients/${patientId}`}
+          className="text-gray-400 hover:text-gray-600"
+        >
           <ArrowLeft className="w-5 h-5" />
         </Link>
         <div>
@@ -64,7 +71,8 @@ export default async function PatientMealsPage({
         </Card>
       ) : (
         <div className="space-y-4">
-          {meals.map((meal) => (
+          {/* 2. Tipamos o meal no map */}
+          {meals.map((meal: MealType) => (
             <Card key={meal.id}>
               <CardContent className="pt-6 space-y-4">
                 <div className="flex items-start justify-between">
@@ -73,15 +81,23 @@ export default async function PatientMealsPage({
                       {mealTypeLabel[meal.mealType] ?? meal.mealType}
                     </span>
                     <p className="text-xs text-gray-400 mt-1">
-                      {format(new Date(meal.loggedAt), "dd 'de' MMMM 'às' HH:mm", { locale: ptBR })}
+                      {format(
+                        new Date(meal.loggedAt),
+                        "dd 'de' MMMM 'às' HH:mm",
+                        { locale: ptBR },
+                      )}
                     </p>
                   </div>
                   <div className="flex gap-3 text-xs text-gray-500">
                     {meal.hungerBefore !== null && (
-                      <span>Fome: <strong>{meal.hungerBefore}</strong></span>
+                      <span>
+                        Fome: <strong>{meal.hungerBefore}</strong>
+                      </span>
                     )}
                     {meal.satietyAfter !== null && (
-                      <span>Saciedade: <strong>{meal.satietyAfter}</strong></span>
+                      <span>
+                        Saciedade: <strong>{meal.satietyAfter}</strong>
+                      </span>
                     )}
                   </div>
                 </div>
@@ -100,25 +116,43 @@ export default async function PatientMealsPage({
 
                 <div className="flex flex-wrap gap-2 text-xs text-gray-500">
                   {meal.emotion && (
-                    <span className="bg-gray-100 rounded px-2 py-0.5">😊 {meal.emotion}</span>
+                    <span className="bg-gray-100 rounded px-2 py-0.5">
+                      😊 {meal.emotion}
+                    </span>
                   )}
                   {meal.location && (
-                    <span className="bg-gray-100 rounded px-2 py-0.5">📍 {meal.location}</span>
+                    <span className="bg-gray-100 rounded px-2 py-0.5">
+                      📍 {meal.location}
+                    </span>
                   )}
                   <span className="bg-gray-100 rounded px-2 py-0.5">
-                    {meal.companions === "ALONE" ? "👤 Sozinho(a)" : "👥 Com outras pessoas"}
+                    {meal.companions === "ALONE"
+                      ? "👤 Sozinho(a)"
+                      : "👥 Com outras pessoas"}
                   </span>
                 </div>
 
                 {/* Existing comments */}
                 {meal.comments.length > 0 && (
                   <div className="space-y-2">
-                    {meal.comments.map((comment) => (
-                      <div key={comment.id} className="bg-teal-50 border border-teal-200 rounded-lg p-3">
-                        <p className="text-xs font-medium text-teal-700 mb-1">Seu comentário</p>
-                        <p className="text-sm text-teal-900">{comment.content}</p>
+                    {/* 3. Tipamos o comment no map interno */}
+                    {meal.comments.map((comment: CommentType) => (
+                      <div
+                        key={comment.id}
+                        className="bg-teal-50 border border-teal-200 rounded-lg p-3"
+                      >
+                        <p className="text-xs font-medium text-teal-700 mb-1">
+                          Seu comentário
+                        </p>
+                        <p className="text-sm text-teal-900">
+                          {comment.content}
+                        </p>
                         <p className="text-xs text-teal-500 mt-1">
-                          {format(new Date(comment.createdAt), "dd/MM 'às' HH:mm", { locale: ptBR })}
+                          {format(
+                            new Date(comment.createdAt),
+                            "dd/MM 'às' HH:mm",
+                            { locale: ptBR },
+                          )}
                         </p>
                       </div>
                     ))}
@@ -126,12 +160,15 @@ export default async function PatientMealsPage({
                 )}
 
                 {/* Comment form */}
-                <MealCommentForm mealId={meal.id} hasComment={meal.comments.length > 0} />
+                <MealCommentForm
+                  mealId={meal.id}
+                  hasComment={meal.comments.length > 0}
+                />
               </CardContent>
             </Card>
           ))}
         </div>
       )}
     </div>
-  )
+  );
 }
