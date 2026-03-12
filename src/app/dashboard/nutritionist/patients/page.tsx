@@ -54,7 +54,7 @@ export default async function PatientsPage() {
         </Card>
       ) : (
         <div className="grid gap-4">
-          {patients.map((patient) => {
+          {patients.map((patient: (typeof patients)[number]) => {
             const lastMeal = patient.mealLogs[0]
             const lastQuiz = patient.dailyQuiz[0]
             const lastDiary = patient.diaryEntries[0]
