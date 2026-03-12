@@ -1,5 +1,6 @@
 import { auth } from "@/lib/auth";
 import { prisma } from "@/lib/prisma";
+import { DailyQuiz, MealLog, DiaryEntry } from "@prisma/client";
 import { notFound } from "next/navigation";
 import { startOfDay, endOfDay } from "date-fns";
 import Link from "next/link";
@@ -60,23 +61,24 @@ export default async function PatientDetailPage({
 
   if (!patient) notFound();
 
-  const todayQuiz = quizzes.find((q) => {
+  const todayQuiz = quizzes.find((q: DailyQuiz) => {
     const d = new Date(q.date);
     return d >= startOfDay(today) && d <= endOfDay(today);
   });
 
   const avgNote =
     quizzes.length > 0
-      ? (quizzes.reduce((s, q) => s + q.dailyNote, 0) / quizzes.length).toFixed(
-          1,
-        )
+      ? (
+          quizzes.reduce((s: number, q: DailyQuiz) => s + q.dailyNote, 0) /
+          quizzes.length
+        ).toFixed(1)
       : null;
 
   const pendingMeals = recentMeals.filter(
-    (m) => m.comments.length === 0,
+    (m: (typeof recentMeals)[number]) => m.comments.length === 0,
   ).length;
   const pendingDiary = recentDiary.filter(
-    (d) => d.comments.length === 0,
+    (d: (typeof recentDiary)[number]) => d.comments.length === 0,
   ).length;
 
   return (
