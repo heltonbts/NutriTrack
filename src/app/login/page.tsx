@@ -8,6 +8,7 @@ import { Button } from "@/components/ui/button"
 import { Input } from "@/components/ui/input"
 import { Label } from "@/components/ui/label"
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card"
+import Logo from "@/components/Logo"
 
 function LoginForm() {
   const router = useRouter()
@@ -96,13 +97,10 @@ export default function LoginPage() {
     <div className="min-h-screen flex items-center justify-center bg-[#fafafa] p-4">
       <Card className="w-full max-w-md shadow-xl border-0">
         <CardHeader className="text-center">
-          <div className="flex justify-center mb-4">
-            <div className="w-12 h-12 brand-gradient rounded-xl flex items-center justify-center shadow-lg">
-              <span className="text-white text-2xl">🥗</span>
-            </div>
+          <div className="flex justify-center mb-6">
+            <Logo iconOnly size={80} />
           </div>
-          <CardTitle className="text-3xl font-bold brand-gradient-text">Evolux</CardTitle>
-          <CardDescription>Nutrição comportamental inteligente</CardDescription>
+          <CardDescription className="text-lg">Nutrição comportamental inteligente</CardDescription>
         </CardHeader>
         <CardContent>
           <Suspense>

@@ -6,6 +6,7 @@ import { usePathname } from "next/navigation"
 import { signOut } from "next-auth/react"
 import { cn } from "@/lib/utils"
 import { Home, Users, LogOut } from "lucide-react"
+import Logo from "@/components/Logo"
 
 const navItems = [
   { href: "/dashboard/nutritionist", label: "Início", icon: Home },
@@ -41,15 +42,7 @@ export default function NutritionistSidebar({ user }: { user: SidebarUser }) {
       {/* Desktop sidebar */}
       <aside className="hidden md:flex fixed left-0 top-0 h-full w-64 bg-white border-r border-gray-200 flex-col">
         <div className="p-6 border-b border-gray-200">
-          <div className="flex items-center gap-3">
-            <div className="w-10 h-10 brand-gradient rounded-xl flex items-center justify-center shadow-lg">
-              <span className="text-white text-lg">🥗</span>
-            </div>
-            <div>
-              <p className="font-bold text-gray-900">Evolux</p>
-              <p className="text-xs text-gray-500">Nutricionista</p>
-            </div>
-          </div>
+          <Logo className="scale-90 origin-left" />
         </div>
 
         <div className="p-4 border-b border-gray-100 flex items-center gap-3">
