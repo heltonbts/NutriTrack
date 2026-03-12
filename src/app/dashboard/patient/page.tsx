@@ -6,7 +6,7 @@ import DailyOverview from "@/components/patient/DailyOverview"
 import QuickActions from "@/components/patient/QuickActions"
 import RecentMeals from "@/components/patient/RecentMeals"
 import WeeklyProgress from "@/components/patient/WeeklyProgress"
-import DashboardHeader from "@/components/DashboardHeader"
+import { AnimatedStatItem, AnimatedStatsContainer } from "@/components/AnimatedStats"
 
 export default async function PatientDashboard() {
   const session = await auth()
@@ -55,8 +55,14 @@ export default async function PatientDashboard() {
         settingsHref="/dashboard/patient/settings"
       />
 
-      <QuickActions hasQuizToday={!!todayQuiz} mealCount={todayMeals.length} />
-      <DailyOverview todayQuiz={todayQuiz} todayMeals={todayMeals} />
+      <AnimatedStatsContainer className="space-y-6">
+        <AnimatedStatItem>
+          <QuickActions hasQuizToday={!!todayQuiz} mealCount={todayMeals.length} />
+        </AnimatedStatItem>
+        <AnimatedStatItem>
+          <DailyOverview todayQuiz={todayQuiz} todayMeals={todayMeals} />
+        </AnimatedStatItem>
+      </AnimatedStatsContainer>
       <div className="grid grid-cols-1 lg:grid-cols-2 gap-4 md:gap-6">
         <RecentMeals meals={todayMeals} />
         <WeeklyProgress quizzes={recentQuizzes} />

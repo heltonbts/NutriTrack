@@ -12,6 +12,7 @@ import {
 } from "lucide-react";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import DashboardHeader from "@/components/DashboardHeader";
+import { AnimatedStatsContainer, AnimatedStatItem } from "@/components/AnimatedStats";
 
 export default async function NutritionistDashboard() {
   const session = await auth();
@@ -95,71 +96,79 @@ export default async function NutritionistDashboard() {
       />
 
       {/* Stats */}
-      <div className="grid grid-cols-2 lg:grid-cols-4 gap-3 md:gap-4">
-        <Card>
-          <CardContent className="pt-6">
-            <div className="flex items-center gap-3">
-              <div className="w-10 h-10 bg-teal-100 rounded-lg flex items-center justify-center">
-                <Users className="w-5 h-5 text-teal-600" />
+      <AnimatedStatsContainer>
+        <AnimatedStatItem>
+          <Card>
+            <CardContent className="pt-6">
+              <div className="flex items-center gap-3">
+                <div className="w-10 h-10 bg-teal-100 rounded-lg flex items-center justify-center">
+                  <Users className="w-5 h-5 text-teal-600" />
+                </div>
+                <div>
+                  <p className="text-2xl font-bold text-gray-900">
+                    {totalPatients}
+                  </p>
+                  <p className="text-sm text-gray-500">Pacientes</p>
+                </div>
               </div>
-              <div>
-                <p className="text-2xl font-bold text-gray-900">
-                  {totalPatients}
-                </p>
-                <p className="text-sm text-gray-500">Pacientes</p>
-              </div>
-            </div>
-          </CardContent>
-        </Card>
+            </CardContent>
+          </Card>
+        </AnimatedStatItem>
 
-        <Card>
-          <CardContent className="pt-6">
-            <div className="flex items-center gap-3">
-              <div className="w-10 h-10 bg-green-100 rounded-lg flex items-center justify-center">
-                <TrendingUp className="w-5 h-5 text-green-600" />
+        <AnimatedStatItem>
+          <Card>
+            <CardContent className="pt-6">
+              <div className="flex items-center gap-3">
+                <div className="w-10 h-10 bg-green-100 rounded-lg flex items-center justify-center">
+                  <TrendingUp className="w-5 h-5 text-green-600" />
+                </div>
+                <div>
+                  <p className="text-2xl font-bold text-gray-900">
+                    {activeToday}
+                  </p>
+                  <p className="text-sm text-gray-500">Ativos hoje</p>
+                </div>
               </div>
-              <div>
-                <p className="text-2xl font-bold text-gray-900">
-                  {activeToday}
-                </p>
-                <p className="text-sm text-gray-500">Ativos hoje</p>
-              </div>
-            </div>
-          </CardContent>
-        </Card>
+            </CardContent>
+          </Card>
+        </AnimatedStatItem>
 
-        <Card>
-          <CardContent className="pt-6">
-            <div className="flex items-center gap-3">
-              <div className="w-10 h-10 bg-orange-100 rounded-lg flex items-center justify-center">
-                <AlertCircle className="w-5 h-5 text-orange-500" />
+        <AnimatedStatItem>
+          <Card>
+            <CardContent className="pt-6">
+              <div className="flex items-center gap-3">
+                <div className="w-10 h-10 bg-orange-100 rounded-lg flex items-center justify-center">
+                  <AlertCircle className="w-5 h-5 text-orange-500" />
+                </div>
+                <div>
+                  <p className="text-2xl font-bold text-gray-900">
+                    {totalPending}
+                  </p>
+                  <p className="text-sm text-gray-500">Pendências</p>
+                </div>
               </div>
-              <div>
-                <p className="text-2xl font-bold text-gray-900">
-                  {totalPending}
-                </p>
-                <p className="text-sm text-gray-500">Pendências</p>
-              </div>
-            </div>
-          </CardContent>
-        </Card>
+            </CardContent>
+          </Card>
+        </AnimatedStatItem>
 
-        <Card>
-          <CardContent className="pt-6">
-            <div className="flex items-center gap-3">
-              <div className="w-10 h-10 bg-purple-100 rounded-lg flex items-center justify-center">
-                <ClipboardList className="w-5 h-5 text-purple-600" />
+        <AnimatedStatItem>
+          <Card>
+            <CardContent className="pt-6">
+              <div className="flex items-center gap-3">
+                <div className="w-10 h-10 bg-purple-100 rounded-lg flex items-center justify-center">
+                  <ClipboardList className="w-5 h-5 text-purple-600" />
+                </div>
+                <div>
+                  <p className="text-2xl font-bold text-gray-900">
+                    {pendingQuizFeedback}
+                  </p>
+                  <p className="text-sm text-gray-500">Quiz sem retorno</p>
+                </div>
               </div>
-              <div>
-                <p className="text-2xl font-bold text-gray-900">
-                  {pendingQuizFeedback}
-                </p>
-                <p className="text-sm text-gray-500">Quiz sem retorno</p>
-              </div>
-            </div>
-          </CardContent>
-        </Card>
-      </div>
+            </CardContent>
+          </Card>
+        </AnimatedStatItem>
+      </AnimatedStatsContainer>
 
       {/* Patient list */}
       <Card>
