@@ -36,6 +36,7 @@ export async function checkAndAwardBadges(
   type MealLogType = (typeof mealLogs)[number];
   type ExistingBadgeType = (typeof existingBadges)[number];
   type AllBadgeType = (typeof allBadges)[number];
+  type QuizType = (typeof recentQuizzes)[number]; // <-- Adicionamos o tipo do Quiz aqui!
 
   const earnedIds = new Set<string>(
     existingBadges.map((b: ExistingBadgeType) => b.badgeId),
@@ -59,7 +60,6 @@ export async function checkAndAwardBadges(
     candidates.push("badge_quiz_7");
 
   // Meal streak — consecutive days with at least one meal
-  // Garantindo que a tipagem do array que entra no Set seja um array de strings
   const mealDayStrings: string[] = mealLogs.map((m: MealLogType) =>
     startOfDay(new Date(m.loggedAt)).toISOString(),
   );
@@ -75,7 +75,8 @@ export async function checkAndAwardBadges(
   // Hydration >= 8 for last 5 quizzes
   if (!earnedIds.has("badge_hydration_5")) {
     const last5 = recentQuizzes.slice(0, 5);
-    if (last5.length >= 5 && last5.every((q) => q.hydration >= 8)) {
+    // Aplicando a tipagem no 'q' aqui
+    if (last5.length >= 5 && last5.every((q: QuizType) => q.hydration >= 8)) {
       candidates.push("badge_hydration_5");
     }
   }
@@ -83,7 +84,8 @@ export async function checkAndAwardBadges(
   // Sleep >= 7 for last 5 quizzes
   if (!earnedIds.has("badge_sleep_5")) {
     const last5 = recentQuizzes.slice(0, 5);
-    if (last5.length >= 5 && last5.every((q) => q.sleepScore >= 7)) {
+    // Aplicando a tipagem no 'q' aqui
+    if (last5.length >= 5 && last5.every((q: QuizType) => q.sleepScore >= 7)) {
       candidates.push("badge_sleep_5");
     }
   }
@@ -92,8 +94,9 @@ export async function checkAndAwardBadges(
   if (!earnedIds.has("badge_improving_5")) {
     const last5 = recentQuizzes.slice(0, 5).reverse(); // oldest → newest
     if (last5.length >= 5) {
+      // Aplicando a tipagem no 'q' aqui
       const improving = last5.every(
-        (q, i) => i === 0 || q.dailyNote > last5[i - 1].dailyNote,
+        (q: QuizType, i) => i === 0 || q.dailyNote > last5[i - 1].dailyNote,
       );
       if (improving) candidates.push("badge_improving_5");
     }
