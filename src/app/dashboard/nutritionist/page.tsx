@@ -47,7 +47,11 @@ export default async function NutritionistDashboard() {
     orderBy: { createdAt: "asc" },
   });
 
+  // 1. Extraindo os tipos diretamente da resposta do Prisma
   type PatientWithData = (typeof patientLinks)[number]["patient"];
+  type MealLog = PatientWithData["mealLogs"][number];
+  type DiaryEntry = PatientWithData["diaryEntries"][number];
+
   const patients: PatientWithData[] = patientLinks.map(
     (pl: (typeof patientLinks)[number]) => pl.patient,
   );
@@ -60,12 +64,20 @@ export default async function NutritionistDashboard() {
       p.dailyQuiz.length > 0,
   ).length;
 
+  // 2. Aplicando as tipagens nos callbacks de filter
   const pendingMealComments = patients.reduce((acc, p) => {
-    return acc + p.mealLogs.filter((m) => m.comments.length === 0).length;
+    return (
+      acc + p.mealLogs.filter((m: MealLog) => m.comments.length === 0).length
+    );
   }, 0);
+
   const pendingDiaryComments = patients.reduce((acc, p) => {
-    return acc + p.diaryEntries.filter((d) => d.comments.length === 0).length;
+    return (
+      acc +
+      p.diaryEntries.filter((d: DiaryEntry) => d.comments.length === 0).length
+    );
   }, 0);
+
   const pendingQuizFeedback = patients.filter(
     (p) => p.dailyQuiz.length > 0 && !p.dailyQuiz[0].nutritionistFeedback,
   ).length;
@@ -164,11 +176,15 @@ export default async function NutritionistDashboard() {
               {patients.map((patient) => {
                 const mealsToday = patient.mealLogs.length;
                 const quizToday = patient.dailyQuiz[0];
+
+                // 3. Aplicando as tipagens aqui também
                 const pendingPatient =
-                  patient.mealLogs.filter((m) => m.comments.length === 0)
-                    .length +
-                  patient.diaryEntries.filter((d) => d.comments.length === 0)
-                    .length +
+                  patient.mealLogs.filter(
+                    (m: MealLog) => m.comments.length === 0,
+                  ).length +
+                  patient.diaryEntries.filter(
+                    (d: DiaryEntry) => d.comments.length === 0,
+                  ).length +
                   (quizToday && !quizToday.nutritionistFeedback ? 1 : 0);
 
                 return (
