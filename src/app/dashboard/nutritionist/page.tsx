@@ -58,28 +58,28 @@ export default async function NutritionistDashboard() {
 
   const totalPatients = patients.length;
   const activeToday = patients.filter(
-    (p) =>
+    (p: (typeof patients)[number]) =>
       p.mealLogs.length > 0 ||
       p.diaryEntries.length > 0 ||
       p.dailyQuiz.length > 0,
   ).length;
 
   // 2. Aplicando as tipagens nos callbacks de filter
-  const pendingMealComments = patients.reduce((acc, p) => {
+  const pendingMealComments = patients.reduce((acc: number, p: (typeof patients)[number]) => {
     return (
-      acc + p.mealLogs.filter((m: MealLog) => m.comments.length === 0).length
+      acc + p.mealLogs.filter((m: (typeof p.mealLogs)[number]) => m.comments.length === 0).length
     );
   }, 0);
 
-  const pendingDiaryComments = patients.reduce((acc, p) => {
+  const pendingDiaryComments = patients.reduce((acc: number, p: (typeof patients)[number]) => {
     return (
       acc +
-      p.diaryEntries.filter((d: DiaryEntry) => d.comments.length === 0).length
+      p.diaryEntries.filter((d: (typeof p.diaryEntries)[number]) => d.comments.length === 0).length
     );
   }, 0);
 
   const pendingQuizFeedback = patients.filter(
-    (p) => p.dailyQuiz.length > 0 && !p.dailyQuiz[0].nutritionistFeedback,
+    (p: (typeof patients)[number]) => p.dailyQuiz.length > 0 && !p.dailyQuiz[0].nutritionistFeedback,
   ).length;
 
   const totalPending =

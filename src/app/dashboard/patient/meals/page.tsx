@@ -66,7 +66,7 @@ export default async function MealsPage() {
         </Card>
       ) : (
         <div className="space-y-4">
-          {meals.map((meal: any) => (
+          {meals.map((meal: (typeof meals)[number]) => (
             <Card key={meal.id} className="overflow-hidden">
               {/* Photo — full width */}
               {meal.photoUrl ? (

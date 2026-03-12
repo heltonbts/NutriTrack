@@ -18,7 +18,7 @@ export default async function ProgressPage() {
   const totalQuizzes = await prisma.dailyQuiz.count({ where: { userId } })
 
   const avgNote = quizzes.length
-    ? quizzes.reduce((a: number, b: any) => a + b.dailyNote, 0) / quizzes.length
+    ? quizzes.reduce((a: number, b: (typeof quizzes)[number]) => a + b.dailyNote, 0) / quizzes.length
     : 0
 
   return (

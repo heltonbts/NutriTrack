@@ -51,7 +51,7 @@ export default async function DiaryPage() {
         </Card>
       ) : (
         <div className="space-y-4">
-          {entries.map((entry: any) => (
+          {entries.map((entry: (typeof entries)[number]) => (
             <Card key={entry.id}>
               <CardContent className="p-4">
                 <div className="flex items-start justify-between mb-2">
