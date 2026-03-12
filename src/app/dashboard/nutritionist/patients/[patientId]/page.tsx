@@ -7,13 +7,12 @@ import {
   BookOpen,
   ClipboardList,
   Dumbbell,
-  Trophy,
   TrendingUp,
   ChevronRight,
   ArrowLeft,
 } from "lucide-react";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
-import PatientEvolutionPanel from "@/components/nutritionist/PatientEvolutionPanel";
+import PatientProgressChart from "@/components/nutritionist/PatientProgressChart";
 import ReminderManager from "@/components/nutritionist/ReminderManager";
 import { getSaoPauloQuizDate } from "@/lib/timezone";
 
@@ -33,7 +32,7 @@ export default async function PatientDetailPage({
   if (!link) notFound();
   const todayQuizDate = getSaoPauloQuizDate();
 
-  const [patient, quizzes, recentMeals, recentDiary, recentWorkouts, badges] =
+  const [patient, quizzes, recentMeals, recentDiary, recentWorkouts] =
     await Promise.all([
       prisma.user.findUnique({ where: { id: patientId } }),
       prisma.dailyQuiz.findMany({
@@ -56,12 +55,7 @@ export default async function PatientDetailPage({
       prisma.workoutLog.findMany({
         where: { userId: patientId },
         orderBy: { performedAt: "desc" },
-        take: 5,
-      }),
-      prisma.userBadge.findMany({
-        where: { userId: patientId },
-        include: { badge: true },
-        orderBy: { earnedAt: "desc" },
+        take: 30,
       }),
     ]);
 
@@ -108,7 +102,7 @@ export default async function PatientDetailPage({
       </div>
 
       {/* Stats */}
-      <div className="grid grid-cols-2 lg:grid-cols-5 gap-3 md:gap-4">
+      <div className="grid grid-cols-2 lg:grid-cols-4 gap-3 md:gap-4">
         <Card>
           <CardContent className="pt-6">
             <div className="flex items-center gap-3">
@@ -152,22 +146,6 @@ export default async function PatientDetailPage({
                   {recentWorkouts.length}
                 </p>
                 <p className="text-sm text-gray-500">Treinos rec.</p>
-              </div>
-            </div>
-          </CardContent>
-        </Card>
-
-        <Card>
-          <CardContent className="pt-6">
-            <div className="flex items-center gap-3">
-              <div className="w-10 h-10 bg-yellow-100 rounded-lg flex items-center justify-center">
-                <Trophy className="w-5 h-5 text-yellow-600" />
-              </div>
-              <div>
-                <p className="text-2xl font-bold text-gray-900">
-                  {badges.length}
-                </p>
-                <p className="text-sm text-gray-500">Conquistas</p>
               </div>
             </div>
           </CardContent>
@@ -344,31 +322,7 @@ export default async function PatientDetailPage({
 
       <ReminderManager patientId={patientId} />
 
-      <PatientEvolutionPanel quizzes={quizzes} badges={badges} />
-
-      {/* Recent badges */}
-      {badges.length > 0 && (
-        <Card>
-          <CardHeader className="pb-3">
-            <CardTitle className="text-base">Conquistas recentes</CardTitle>
-          </CardHeader>
-          <CardContent>
-            <div className="flex flex-wrap gap-2">
-              {badges.slice(0, 6).map((ub: (typeof badges)[number]) => (
-                <div
-                  key={ub.id}
-                  className="flex items-center gap-2 bg-yellow-50 border border-yellow-200 rounded-lg px-3 py-2"
-                >
-                  <span className="text-lg">{ub.badge.icon}</span>
-                  <span className="text-sm font-medium text-yellow-800">
-                    {ub.badge.name}
-                  </span>
-                </div>
-              ))}
-            </div>
-          </CardContent>
-        </Card>
-      )}
+      <PatientProgressChart quizzes={quizzes} workouts={recentWorkouts} />
     </div>
   );
 }
