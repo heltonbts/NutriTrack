@@ -39,7 +39,8 @@ export default async function NutritionistDashboard() {
     orderBy: { createdAt: "asc" },
   })
 
-  const patients = patientLinks.map((pl) => pl.patient)
+  type PatientWithData = typeof patientLinks[number]["patient"]
+  const patients: PatientWithData[] = patientLinks.map((pl) => pl.patient)
 
   const totalPatients = patients.length
   const activeToday = patients.filter(
