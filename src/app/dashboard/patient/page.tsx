@@ -7,6 +7,7 @@ import QuickActions from "@/components/patient/QuickActions"
 import RecentMeals from "@/components/patient/RecentMeals"
 import WeeklyProgress from "@/components/patient/WeeklyProgress"
 import { AnimatedStatItem, AnimatedStatsContainer } from "@/components/AnimatedStats"
+import DashboardHeader from "@/components/DashboardHeader"
 
 export default async function PatientDashboard() {
   const session = await auth()
