@@ -13,6 +13,7 @@ import {
   ArrowLeft,
 } from "lucide-react";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
+import PatientEvolutionPanel from "@/components/nutritionist/PatientEvolutionPanel";
 
 export default async function PatientDetailPage({
   params,
@@ -288,6 +289,8 @@ export default async function PatientDetailPage({
           </Card>
         </Link>
       </div>
+
+      <PatientEvolutionPanel quizzes={quizzes} badges={badges} />
 
       {/* Recent badges */}
       {badges.length > 0 && (
