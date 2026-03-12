@@ -297,7 +297,7 @@ export default async function PatientDetailPage({
           </CardHeader>
           <CardContent>
             <div className="flex flex-wrap gap-2">
-              {badges.slice(0, 6).map((ub) => (
+              {badges.slice(0, 6).map((ub: (typeof badges)[number]) => (
                 <div
                   key={ub.id}
                   className="flex items-center gap-2 bg-yellow-50 border border-yellow-200 rounded-lg px-3 py-2"
