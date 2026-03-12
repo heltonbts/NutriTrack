@@ -86,7 +86,7 @@ export default function NewWorkoutPage() {
                   <Image src={photoPreview} alt="Preview do treino" fill className="object-cover" />
                 </div>
               ) : (
-                <div className="border-2 border-dashed border-gray-200 rounded-xl p-12 text-center hover:border-green-400 transition-colors">
+                <div className="border-2 border-dashed border-gray-200 rounded-xl p-12 text-center hover:border-brand-cyan/50 transition-colors">
                   <Upload className="w-10 h-10 text-gray-300 mx-auto mb-3" />
                   <p className="text-sm font-medium text-gray-500">Adicionar foto do treino</p>
                   <p className="text-xs text-gray-400 mt-1">Opcional: academia, corrida, bike, espelho ou ambiente</p>
@@ -101,16 +101,16 @@ export default function NewWorkoutPage() {
             <CardTitle className="text-base">Check-in</CardTitle>
           </CardHeader>
           <CardContent className="space-y-4">
-            <label className="flex items-center gap-3 rounded-xl border border-green-200 bg-green-50 px-4 py-3">
+            <label className="flex items-center gap-3 rounded-xl border border-brand-cyan/20 bg-brand-cyan/5 px-4 py-3 cursor-pointer">
               <input
                 type="checkbox"
                 checked={checkedIn}
                 onChange={(e) => setCheckedIn(e.target.checked)}
-                className="h-4 w-4 rounded border-gray-300 text-green-600"
+                className="h-4 w-4 rounded border-gray-300 text-brand-cyan focus:ring-brand-cyan"
               />
               <div>
-                <p className="font-medium text-gray-900">Treino concluido</p>
-                <p className="text-sm text-gray-500">Marque para confirmar que fez a atividade.</p>
+                <p className="font-bold text-gray-900">Treino concluído</p>
+                <p className="text-xs text-gray-500 font-medium">Marque para confirmar sua atividade.</p>
               </div>
             </label>
 
@@ -160,19 +160,19 @@ export default function NewWorkoutPage() {
 
         <Button
           type="submit"
-          className="w-full bg-green-600 hover:bg-green-700"
+          className="w-full bg-brand-magenta hover:bg-brand-magenta-dark text-white h-12 font-bold"
           disabled={loading || !checkedIn}
         >
           {loading ? (
-            <>
-              <Loader2 className="w-4 h-4 mr-2 animate-spin" />
-              Salvando...
-            </>
+            <div className="flex items-center gap-2">
+              <Loader2 className="w-5 h-5 animate-spin" />
+              <span>Salvando check-in...</span>
+            </div>
           ) : (
-            <>
-              <Dumbbell className="w-4 h-4 mr-2" />
-              Salvar check-in
-            </>
+            <div className="flex items-center gap-2">
+              <Dumbbell className="w-5 h-5" />
+              <span>Finalizar Check-in</span>
+            </div>
           )}
         </Button>
       </form>

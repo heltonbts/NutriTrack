@@ -20,9 +20,9 @@ export default function QuickActions({ hasQuizToday, mealCount, workoutCount }: 
     },
     {
       label: "Check-in de Treino",
-      description: "Em breve",
+      description: workoutCount > 0 ? "Você treinou hoje! 💪" : "Registrar treino",
       icon: Dumbbell,
-      href: "/dashboard/patient/progress",
+      href: "/dashboard/patient/workouts/new",
       color: "bg-brand-cyan",
       bg: "bg-brand-cyan/5",
     },
