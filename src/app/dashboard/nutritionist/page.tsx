@@ -18,32 +18,26 @@ export default async function NutritionistDashboard() {
       select: { name: true, image: true },
     }),
     prisma.patientNutritionist.findMany({
-    where: { nutritionistId },
-    include: {
-      patient: {
-        include: {
-          mealLogs: {
-            where: {
-              loggedAt: { gte: startOfDay(today), lte: endOfDay(today) },
+      where: { nutritionistId },
+      include: {
+        patient: {
+          include: {
+            mealLogs: {
+              where: { loggedAt: { gte: startOfDay(today), lte: endOfDay(today) } },
+              include: { comments: true },
             },
-            include: { comments: true },
-          },
-          diaryEntries: {
-            where: {
-              date: { gte: startOfDay(today), lte: endOfDay(today) },
+            diaryEntries: {
+              where: { date: { gte: startOfDay(today), lte: endOfDay(today) } },
+              include: { comments: true },
             },
-            include: { comments: true },
-          },
-          dailyQuiz: {
-            where: {
-              date: { gte: startOfDay(today), lte: endOfDay(today) },
+            dailyQuiz: {
+              where: { date: { gte: startOfDay(today), lte: endOfDay(today) } },
             },
           },
         },
       },
-    },
-    orderBy: { createdAt: "asc" },
-  }),
+      orderBy: { createdAt: "asc" },
+    }),
   ])
 
   const patients = patientLinks.map((pl) => pl.patient)
