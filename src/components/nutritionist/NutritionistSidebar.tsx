@@ -46,7 +46,7 @@ export default function NutritionistSidebar({ user }: { user: SidebarUser }) {
               <span className="text-white text-lg">🥗</span>
             </div>
             <div>
-              <p className="font-bold text-gray-900">NutriTrack</p>
+              <p className="font-bold text-gray-900">Evolux</p>
               <p className="text-xs text-gray-500">Nutricionista</p>
             </div>
           </div>

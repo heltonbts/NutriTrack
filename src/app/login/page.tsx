@@ -76,14 +76,14 @@ function LoginForm() {
           />
         </div>
         {error && <p className="text-sm text-red-500">{error}</p>}
-        <Button type="submit" className="w-full bg-green-600 hover:bg-green-700" disabled={loading}>
+        <Button type="submit" className="w-full bg-brand-magenta hover:bg-brand-magenta-dark text-white" disabled={loading}>
           {loading ? "Entrando..." : "Entrar"}
         </Button>
       </form>
 
       <p className="text-center text-sm text-gray-500 mt-4">
         Nutricionista sem conta?{" "}
-        <Link href="/register" className="text-green-600 font-medium hover:underline">
+        <Link href="/register" className="text-brand-magenta font-medium hover:underline">
           Cadastre-se
         </Link>
       </p>
@@ -93,15 +93,15 @@ function LoginForm() {
 
 export default function LoginPage() {
   return (
-    <div className="min-h-screen flex items-center justify-center bg-gradient-to-br from-green-50 to-emerald-100 p-4">
-      <Card className="w-full max-w-md">
+    <div className="min-h-screen flex items-center justify-center bg-[#fafafa] p-4">
+      <Card className="w-full max-w-md shadow-xl border-0">
         <CardHeader className="text-center">
           <div className="flex justify-center mb-4">
-            <div className="w-12 h-12 bg-green-600 rounded-xl flex items-center justify-center">
+            <div className="w-12 h-12 brand-gradient rounded-xl flex items-center justify-center shadow-lg">
               <span className="text-white text-2xl">🥗</span>
             </div>
           </div>
-          <CardTitle className="text-2xl font-bold text-gray-900">NutriTrack</CardTitle>
+          <CardTitle className="text-3xl font-bold brand-gradient-text">Evolux</CardTitle>
           <CardDescription>Nutrição comportamental inteligente</CardDescription>
         </CardHeader>
         <CardContent>

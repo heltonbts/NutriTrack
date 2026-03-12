@@ -55,7 +55,7 @@ export default function PatientSidebar({ user }: { user: SidebarUser }) {
               <span className="text-white text-lg">🥗</span>
             </div>
             <div>
-              <p className="font-bold text-gray-900">NutriTrack</p>
+              <p className="font-bold text-gray-900">Evolux</p>
               <p className="text-xs text-gray-500">Paciente</p>
             </div>
           </div>
