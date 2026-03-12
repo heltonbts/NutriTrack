@@ -37,14 +37,14 @@ export default async function BadgesPage() {
           return (
             <Card
               key={badge.id}
-              className={`text-center transition-all ${isEarned ? "ring-2 ring-yellow-300 shadow-md" : "opacity-40 grayscale"}`}
+              className={`text-center transition-all ${isEarned ? "ring-2 ring-brand-magenta shadow-md" : "opacity-40 grayscale"}`}
             >
               <CardContent className="p-4">
                 <p className="text-4xl mb-2">{badge.icon}</p>
                 <p className="font-semibold text-sm text-gray-900">{badge.name}</p>
                 <p className="text-xs text-gray-500 mt-1">{badge.description}</p>
                 {isEarned ? (
-                  <span className="inline-block mt-2 text-xs bg-yellow-100 text-yellow-700 px-2 py-0.5 rounded-full">
+                  <span className="inline-block mt-2 text-xs bg-brand-magenta/10 text-brand-magenta-dark px-2 py-0.5 rounded-full font-bold">
                     ✓ {format(new Date(earnedAt!), "dd/MM/yyyy", { locale: ptBR })}
                   </span>
                 ) : (

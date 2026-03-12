@@ -29,7 +29,7 @@ export default async function DiaryPage() {
           </p>
         </div>
         <Link href="/dashboard/patient/diary/new">
-          <Button className="bg-green-600 hover:bg-green-700">
+          <Button className="bg-brand-magenta hover:bg-brand-magenta-dark text-white">
             <Plus className="w-4 h-4 md:mr-2" />
             <span className="hidden md:inline">Novo Relato</span>
           </Button>
@@ -43,7 +43,7 @@ export default async function DiaryPage() {
             <p className="text-gray-500">Seu diário está vazio.</p>
             <p className="text-gray-400 text-sm mt-1">Escreva sobre como foi seu dia, suas emoções e dificuldades.</p>
             <Link href="/dashboard/patient/diary/new">
-              <Button className="mt-4 bg-green-600 hover:bg-green-700">
+              <Button className="mt-4 bg-brand-magenta hover:bg-brand-magenta-dark text-white">
                 Começar a escrever
               </Button>
             </Link>
@@ -68,8 +68,8 @@ export default async function DiaryPage() {
                   {entry.content}
                 </p>
                 {entry.comments.length > 0 && (
-                  <div className="mt-3 p-3 bg-green-50 rounded-lg border border-green-100">
-                    <p className="text-xs font-medium text-green-700 mb-1">Resposta da Nutricionista:</p>
+                  <div className="mt-3 p-3 bg-brand-teal/5 rounded-lg border border-brand-teal/10">
+                    <p className="text-xs font-medium text-brand-teal mb-1">Resposta da Nutricionista:</p>
                     <p className="text-sm text-gray-700">{entry.comments[entry.comments.length - 1].content}</p>
                   </div>
                 )}

@@ -18,14 +18,14 @@ const questions = [
 ]
 
 const positiveColors = [
-  "bg-red-500", "bg-red-400", "bg-orange-400", "bg-orange-300",
-  "bg-yellow-400", "bg-yellow-300", "bg-lime-400", "bg-green-400",
-  "bg-green-500", "bg-emerald-600", "bg-emerald-700"
+  "bg-brand-magenta", "bg-brand-magenta/80", "bg-brand-magenta/60", "bg-brand-magenta/40",
+  "bg-brand-purple/40", "bg-brand-purple/60", "bg-brand-purple/80", "bg-brand-teal/40",
+  "bg-brand-teal/60", "bg-brand-teal/80", "bg-brand-teal"
 ]
 const invertedColors = [
-  "bg-emerald-700", "bg-emerald-600", "bg-green-500", "bg-green-400",
-  "bg-lime-400", "bg-yellow-300", "bg-yellow-400", "bg-orange-300",
-  "bg-orange-400", "bg-red-400", "bg-red-500"
+  "bg-brand-teal", "bg-brand-teal/80", "bg-brand-teal/60", "bg-brand-teal/40",
+  "bg-brand-purple/40", "bg-brand-purple/60", "bg-brand-purple/80", "bg-brand-magenta/40",
+  "bg-brand-magenta/60", "bg-brand-magenta/80", "bg-brand-magenta"
 ]
 
 function ScoreButton({ value, selected, onClick, inverted }: { value: number; selected: boolean; onClick: () => void; inverted: boolean }) {
@@ -81,9 +81,9 @@ export default function QuizPage() {
 
   if (submitted && dailyNote !== null) {
     const getFeedback = (note: number) => {
-      if (note >= 8) return { msg: "Dia excelente! Você está no caminho certo. Continue assim! 🎉", color: "text-green-600" }
-      if (note >= 6) return { msg: "Bom dia! Alguns pontos para melhorar, mas você está progredindo. 💪", color: "text-yellow-600" }
-      return { msg: "Dia desafiador, mas amanhã é uma nova oportunidade. Vá dormir cedo e se hidrate bem. 🌙", color: "text-orange-600" }
+      if (note >= 8) return { msg: "Dia excelente! Você está no caminho certo. Continue assim! 🎉", color: "text-brand-teal" }
+      if (note >= 6) return { msg: "Bom dia! Alguns pontos para melhorar, mas você está progredindo. 💪", color: "text-brand-purple" }
+      return { msg: "Dia desafiador, mas amanhã é uma nova oportunidade. Vá dormir cedo e se hidrate bem. 🌙", color: "text-brand-magenta" }
     }
     const feedback = getFeedback(dailyNote)
 
@@ -118,7 +118,7 @@ export default function QuizPage() {
             )}
 
             <Button
-              className="mt-8 bg-green-600 hover:bg-green-700"
+              className="mt-8 bg-brand-magenta hover:bg-brand-magenta-dark text-white"
               onClick={() => router.push("/dashboard/patient")}
             >
               Voltar ao início
@@ -168,7 +168,7 @@ export default function QuizPage() {
 
         <Button
           type="submit"
-          className="w-full bg-green-600 hover:bg-green-700"
+          className="w-full bg-brand-magenta hover:bg-brand-magenta-dark text-white"
           disabled={!allAnswered || loading}
         >
           {loading ? (

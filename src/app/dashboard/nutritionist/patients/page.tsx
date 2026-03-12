@@ -37,7 +37,7 @@ export default async function PatientsPage() {
           <p className="text-gray-500">{patients.length} paciente{patients.length !== 1 ? "s" : ""} vinculado{patients.length !== 1 ? "s" : ""}</p>
         </div>
         <Link href="/dashboard/nutritionist/patients/new">
-          <Button className="bg-teal-600 hover:bg-teal-700">
+          <Button className="bg-brand-teal hover:bg-brand-teal/90 text-white">
             <UserPlus className="w-4 h-4 md:mr-2" />
             <span className="hidden md:inline">Novo Paciente</span>
           </Button>

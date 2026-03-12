@@ -117,7 +117,7 @@ export default function NewPatientPage() {
 
             <Button
               type="submit"
-              className="w-full bg-teal-600 hover:bg-teal-700"
+              className="w-full bg-brand-teal hover:bg-brand-teal/90 text-white"
               disabled={loading}
             >
               {loading ? "Criando conta..." : "Criar paciente"}

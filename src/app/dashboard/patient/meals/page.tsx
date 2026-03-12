@@ -45,7 +45,7 @@ export default async function MealsPage() {
           </p>
         </div>
         <Link href="/dashboard/patient/meals/new">
-          <Button className="bg-green-600 hover:bg-green-700">
+          <Button className="bg-brand-magenta hover:bg-brand-magenta-dark text-white">
             <Plus className="w-4 h-4 md:mr-2" />
             <span className="hidden md:inline">Registrar Refeição</span>
           </Button>
@@ -58,7 +58,7 @@ export default async function MealsPage() {
             <p className="text-5xl mb-4">🍽️</p>
             <p className="text-gray-500">Nenhuma refeição registrada hoje.</p>
             <Link href="/dashboard/patient/meals/new">
-              <Button className="mt-4 bg-green-600 hover:bg-green-700">
+              <Button className="mt-4 bg-brand-magenta hover:bg-brand-magenta-dark text-white">
                 Registrar primeira refeição
               </Button>
             </Link>
@@ -82,7 +82,7 @@ export default async function MealsPage() {
               <CardContent className="p-4 space-y-3">
                 {/* Header row */}
                 <div className="flex items-center justify-between">
-                  <span className="text-xs font-medium text-green-700 bg-green-50 px-2.5 py-1 rounded-full">
+                  <span className="text-xs font-medium text-brand-magenta-dark bg-brand-magenta/10 px-2.5 py-1 rounded-full">
                     {mealTypeLabels[meal.mealType]}
                   </span>
                   <p className="text-xs text-gray-400">
@@ -119,8 +119,8 @@ export default async function MealsPage() {
                 </div>
 
                 {meal.comments.length > 0 && (
-                  <div className="p-3 bg-green-50 rounded-lg border border-green-100">
-                    <p className="text-xs font-medium text-green-700 mb-1">
+                  <div className="p-3 bg-brand-teal/5 rounded-lg border border-brand-teal/10">
+                    <p className="text-xs font-medium text-brand-teal mb-1">
                       Resposta da Nutricionista:
                     </p>
                     <p className="text-sm text-gray-700">
