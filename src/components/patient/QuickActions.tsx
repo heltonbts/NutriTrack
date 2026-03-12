@@ -15,32 +15,32 @@ export default function QuickActions({ hasQuizToday, mealCount, workoutCount }: 
       description: `${mealCount} hoje`,
       icon: Camera,
       href: "/dashboard/patient/meals/new",
-      color: "bg-blue-500",
-      bg: "bg-blue-50",
+      color: "bg-brand-teal",
+      bg: "bg-brand-teal/5",
     },
     {
       label: "Check-in de Treino",
-      description: workoutCount > 0 ? `${workoutCount} hoje` : "Registrar treino",
+      description: "Em breve",
       icon: Dumbbell,
-      href: "/dashboard/patient/workouts/new",
-      color: "bg-emerald-500",
-      bg: "bg-emerald-50",
+      href: "/dashboard/patient/progress",
+      color: "bg-brand-cyan",
+      bg: "bg-brand-cyan/5",
     },
     {
       label: "Escrever no Diário",
       description: "Relatar o dia",
       icon: BookOpen,
       href: "/dashboard/patient/diary/new",
-      color: "bg-purple-500",
-      bg: "bg-purple-50",
+      color: "bg-brand-purple",
+      bg: "bg-brand-purple/5",
     },
     {
       label: "Questionário Diário",
-      description: hasQuizToday ? "Já respondido ✓" : "Pendente",
+      description: hasQuizToday ? "Finalizado" : "Pendente",
       icon: hasQuizToday ? CheckCircle : ClipboardList,
       href: "/dashboard/patient/quiz",
-      color: hasQuizToday ? "bg-green-500" : "bg-orange-500",
-      bg: hasQuizToday ? "bg-green-50" : "bg-orange-50",
+      color: hasQuizToday ? "bg-brand-magenta-dark" : "bg-brand-magenta",
+      bg: hasQuizToday ? "bg-brand-magenta/5" : "bg-brand-magenta/5",
       disabled: hasQuizToday,
     },
   ]
@@ -53,14 +53,14 @@ export default function QuickActions({ hasQuizToday, mealCount, workoutCount }: 
           <Link
             key={action.label}
             href={action.disabled ? "#" : action.href}
-            className={action.disabled ? "cursor-default" : ""}
+            className={action.disabled ? "cursor-default pointer-events-none opacity-80" : ""}
           >
-            <Card className={`p-3 md:p-4 hover:shadow-md transition-shadow ${action.bg} border-0`}>
-              <div className={`w-9 h-9 md:w-10 md:h-10 ${action.color} rounded-xl flex items-center justify-center mb-2 md:mb-3`}>
-                <Icon className="w-4 h-4 md:w-5 md:h-5 text-white" />
+            <Card className={`p-4 hover:shadow-lg transition-all border-0 hover:-translate-y-1 ${action.bg}`}>
+              <div className={`w-10 h-10 ${action.color} rounded-xl flex items-center justify-center mb-3 shadow-sm`}>
+                <Icon className="w-5 h-5 text-white" />
               </div>
-              <p className="font-semibold text-gray-900 text-xs md:text-sm leading-tight">{action.label}</p>
-              <p className="text-xs text-gray-500 mt-1 hidden sm:block">{action.description}</p>
+              <p className="font-bold text-gray-900 text-sm leading-tight">{action.label}</p>
+              <p className="text-[10px] uppercase font-bold text-gray-400 mt-1 tracking-wider">{action.description}</p>
             </Card>
           </Link>
         )

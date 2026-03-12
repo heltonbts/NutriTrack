@@ -23,12 +23,12 @@ export default function DashboardHeader({ name, image, subtitle, settingsHref }:
           transition={{ duration: 0.4 }}
         >
           <Link href={settingsHref}>
-            <div className="w-12 h-12 rounded-full overflow-hidden ring-2 ring-offset-2 ring-green-200 flex-shrink-0 hover:ring-green-400 transition-all">
+            <div className="w-12 h-12 rounded-full overflow-hidden ring-2 ring-offset-2 ring-brand-purple flex-shrink-0 hover:ring-brand-magenta transition-all">
               {image ? (
                 <Image src={image} alt={name ?? ""} width={48} height={48} className="object-cover w-full h-full" />
               ) : (
-                <div className="w-full h-full bg-green-100 flex items-center justify-center">
-                  <span className="text-lg font-bold text-green-700">
+                <div className="w-full h-full bg-brand-teal flex items-center justify-center">
+                  <span className="text-lg font-bold text-white">
                     {name?.charAt(0).toUpperCase()}
                   </span>
                 </div>

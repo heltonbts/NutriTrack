@@ -24,12 +24,12 @@ export default function NutritionistSidebar({ user }: { user: SidebarUser }) {
   const Avatar = ({ size }: { size: "sm" | "lg" }) => {
     const dim = size === "lg" ? "w-10 h-10" : "w-7 h-7"
     return user.image ? (
-      <div className={`${dim} rounded-full overflow-hidden flex-shrink-0 ring-2 ring-teal-200`}>
+      <div className={`${dim} rounded-full overflow-hidden flex-shrink-0 ring-2 ring-brand-purple`}>
         <Image src={user.image} alt={user.name ?? ""} width={40} height={40} className="object-cover w-full h-full" />
       </div>
     ) : (
-      <div className={`${dim} rounded-full bg-teal-100 flex items-center justify-center flex-shrink-0`}>
-        <span className={`font-bold text-teal-700 ${size === "lg" ? "text-sm" : "text-xs"}`}>
+      <div className={`${dim} rounded-full bg-brand-teal flex items-center justify-center flex-shrink-0`}>
+        <span className={`font-bold text-white ${size === "lg" ? "text-sm" : "text-xs"}`}>
           {user.name?.charAt(0).toUpperCase()}
         </span>
       </div>
@@ -42,7 +42,7 @@ export default function NutritionistSidebar({ user }: { user: SidebarUser }) {
       <aside className="hidden md:flex fixed left-0 top-0 h-full w-64 bg-white border-r border-gray-200 flex-col">
         <div className="p-6 border-b border-gray-200">
           <div className="flex items-center gap-3">
-            <div className="w-10 h-10 bg-teal-600 rounded-xl flex items-center justify-center">
+            <div className="w-10 h-10 brand-gradient rounded-xl flex items-center justify-center shadow-lg">
               <span className="text-white text-lg">🥗</span>
             </div>
             <div>
@@ -53,8 +53,8 @@ export default function NutritionistSidebar({ user }: { user: SidebarUser }) {
         </div>
 
         <div className="p-4 border-b border-gray-100 flex items-center gap-3">
-          <div className="w-8 h-8 rounded-full bg-teal-100 flex items-center justify-center flex-shrink-0">
-            <span className="text-sm font-bold text-teal-700">{user.name?.charAt(0).toUpperCase()}</span>
+          <div className="w-8 h-8 rounded-full bg-brand-teal flex items-center justify-center flex-shrink-0">
+            <span className="text-sm font-bold text-white">{user.name?.charAt(0).toUpperCase()}</span>
           </div>
           <div className="flex-1 min-w-0">
             <p className="text-sm font-medium text-gray-900 truncate">{user.name}</p>
@@ -73,11 +73,11 @@ export default function NutritionistSidebar({ user }: { user: SidebarUser }) {
                 className={cn(
                   "flex items-center gap-3 px-3 py-2.5 rounded-lg text-sm font-medium transition-colors",
                   isActive
-                    ? "bg-teal-50 text-teal-700"
+                    ? "bg-brand-teal/10 text-brand-teal"
                     : "text-gray-600 hover:bg-gray-50 hover:text-gray-900"
                 )}
               >
-                <Icon className={cn("w-5 h-5", isActive ? "text-teal-600" : "text-gray-400")} />
+                <Icon className={cn("w-5 h-5", isActive ? "text-brand-teal" : "text-gray-400")} />
                 {item.label}
               </Link>
             )
@@ -106,7 +106,7 @@ export default function NutritionistSidebar({ user }: { user: SidebarUser }) {
               href={item.href}
               className={cn(
                 "flex-1 flex flex-col items-center justify-center py-3 gap-1 text-xs font-medium transition-colors",
-                isActive ? "text-teal-600" : "text-gray-400"
+                isActive ? "text-brand-teal" : "text-gray-400"
               )}
             >
               <Icon className="w-5 h-5" />

@@ -2,25 +2,41 @@
 
 :root {
   --background: 0 0% 100%;
-  --foreground: 222.2 84% 4.9%;
+  --foreground: 224 71.4% 4.1%;
+  
   --card: 0 0% 100%;
-  --card-foreground: 222.2 84% 4.9%;
+  --card-foreground: 224 71.4% 4.1%;
+  
   --popover: 0 0% 100%;
-  --popover-foreground: 222.2 84% 4.9%;
-  --primary: 142.1 76.2% 36.3%;
-  --primary-foreground: 355.7 100% 97.3%;
+  --popover-foreground: 224 71.4% 4.1%;
+  
+  /* Brand Colors - Identidade Visual */
+  --brand-teal: 174 100% 33%;    /* Teal do topo */
+  --brand-purple: 270 70% 50%;  /* Roxo de transição */
+  --brand-magenta: 330 90% 60%; /* Magenta vibrante */
+  --brand-magenta-dark: 330 90% 40%; /* Magenta escuro */
+  --brand-cyan: 190 100% 50%;   /* Ciano de acento */
+
+  /* Mapeando o Primary para o Magenta Vibrante */
+  --primary: var(--brand-magenta);
+  --primary-foreground: 0 0% 100%;
+  
   --secondary: 210 40% 96.1%;
   --secondary-foreground: 222.2 47.4% 11.2%;
+  
   --muted: 210 40% 96.1%;
   --muted-foreground: 215.4 16.3% 46.9%;
-  --accent: 210 40% 96.1%;
-  --accent-foreground: 222.2 47.4% 11.2%;
+  
+  --accent: 190 100% 95%; /* Leve toque de ciano */
+  --accent-foreground: 190 100% 20%;
+  
   --destructive: 0 84.2% 60.2%;
   --destructive-foreground: 210 40% 98%;
+  
   --border: 214.3 31.8% 91.4%;
   --input: 214.3 31.8% 91.4%;
-  --ring: 142.1 76.2% 36.3%;
-  --radius: 0.5rem;
+  --ring: var(--brand-teal);
+  --radius: 0.75rem;
 }
 
 @theme inline {
@@ -43,9 +59,35 @@
   --color-border: hsl(var(--border));
   --color-input: hsl(var(--input));
   --color-ring: hsl(var(--ring));
+  
+  /* Adicionando as cores de marca ao Tailwind */
+  --color-brand-teal: hsl(var(--brand-teal));
+  --color-brand-purple: hsl(var(--brand-purple));
+  --color-brand-magenta: hsl(var(--brand-magenta));
+  --color-brand-magenta-dark: hsl(var(--brand-magenta-dark));
+  --color-brand-cyan: hsl(var(--brand-cyan));
+
   --radius-lg: var(--radius);
   --radius-md: calc(var(--radius) - 2px);
   --radius-sm: calc(var(--radius) - 4px);
+}
+
+@utility brand-gradient {
+  background: linear-gradient(135deg, 
+    hsl(var(--brand-teal)) 0%, 
+    hsl(var(--brand-purple)) 50%, 
+    hsl(var(--brand-magenta)) 100%
+  );
+}
+
+@utility brand-gradient-text {
+  background: linear-gradient(135deg, 
+    hsl(var(--brand-teal)) 0%, 
+    hsl(var(--brand-purple)) 50%, 
+    hsl(var(--brand-magenta)) 100%
+  );
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
 }
 
 * {
@@ -53,6 +95,6 @@
 }
 
 body {
-  background-color: hsl(var(--background));
+  background-color: #fafafa;
   color: hsl(var(--foreground));
 }
