@@ -36,7 +36,7 @@ export async function checkAndAwardBadges(userId: string): Promise<{ id: string;
   if (!earnedIds.has("badge_quiz_7") && quizCount >= 7) candidates.push("badge_quiz_7")
 
   // Meal streak — consecutive days with at least one meal
-  const mealDaySet = new Set(
+  const mealDaySet = new Set<string>(
     mealLogs.map((m: (typeof mealLogs)[number]) => startOfDay(new Date(m.loggedAt)).toISOString())
   )
   if (!earnedIds.has("badge_streak_3") && hasConsecutiveDays(mealDaySet, 3)) {
