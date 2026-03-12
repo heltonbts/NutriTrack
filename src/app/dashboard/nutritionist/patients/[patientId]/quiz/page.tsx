@@ -1,12 +1,11 @@
 import { auth } from "@/lib/auth"
 import { prisma } from "@/lib/prisma"
 import { notFound } from "next/navigation"
-import { format } from "date-fns"
-import { ptBR } from "date-fns/locale"
 import Link from "next/link"
 import { ArrowLeft } from "lucide-react"
 import { Card, CardContent } from "@/components/ui/card"
 import QuizFeedbackForm from "@/components/nutritionist/QuizFeedbackForm"
+import { formatInSaoPaulo } from "@/lib/timezone"
 
 const quizFields = [
   { key: "dietScore", label: "Alimentação" },
@@ -75,7 +74,11 @@ export default async function PatientQuizPage({
               <CardContent className="pt-6 space-y-4">
                 <div className="flex items-center justify-between">
                   <p className="text-sm font-medium text-gray-900">
-                    {format(new Date(quiz.date), "EEEE, dd 'de' MMMM", { locale: ptBR })}
+                    {formatInSaoPaulo(quiz.date, {
+                      weekday: "long",
+                      day: "2-digit",
+                      month: "long",
+                    })}
                   </p>
                   <div className="flex items-center gap-2">
                     <span className="text-xs text-gray-500">Nota do dia</span>
@@ -100,7 +103,12 @@ export default async function PatientQuizPage({
                     <p className="text-sm text-teal-900">{quiz.nutritionistFeedback}</p>
                     {quiz.feedbackAt && (
                       <p className="text-xs text-teal-500 mt-1">
-                        {format(new Date(quiz.feedbackAt), "dd/MM 'às' HH:mm", { locale: ptBR })}
+                        {formatInSaoPaulo(quiz.feedbackAt, {
+                          day: "2-digit",
+                          month: "2-digit",
+                          hour: "2-digit",
+                          minute: "2-digit",
+                        })}
                       </p>
                     )}
                   </div>

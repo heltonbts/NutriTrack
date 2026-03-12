@@ -1,7 +1,6 @@
 import { auth } from "@/lib/auth";
 import { prisma } from "@/lib/prisma";
 import { notFound } from "next/navigation";
-import { startOfDay, endOfDay } from "date-fns";
 import Link from "next/link";
 import {
   Camera,
@@ -14,6 +13,7 @@ import {
 } from "lucide-react";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import PatientEvolutionPanel from "@/components/nutritionist/PatientEvolutionPanel";
+import { getSaoPauloQuizDate } from "@/lib/timezone";
 
 export default async function PatientDetailPage({
   params,
@@ -29,8 +29,7 @@ export default async function PatientDetailPage({
     where: { patientId_nutritionistId: { patientId, nutritionistId } },
   });
   if (!link) notFound();
-
-  const today = new Date();
+  const todayQuizDate = getSaoPauloQuizDate();
 
   const [patient, quizzes, recentMeals, recentDiary, badges] =
     await Promise.all([
@@ -61,10 +60,10 @@ export default async function PatientDetailPage({
 
   if (!patient) notFound();
 
-  const todayQuiz = quizzes.find((q: (typeof quizzes)[number]) => {
-    const d = new Date(q.date);
-    return d >= startOfDay(today) && d <= endOfDay(today);
-  });
+  const todayQuiz = quizzes.find(
+    (q: (typeof quizzes)[number]) =>
+      new Date(q.date).getTime() === todayQuizDate.getTime(),
+  );
 
   const avgNote =
     quizzes.length > 0

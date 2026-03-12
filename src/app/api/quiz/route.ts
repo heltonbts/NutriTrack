@@ -1,8 +1,8 @@
 import { NextRequest, NextResponse } from "next/server"
 import { auth } from "@/lib/auth"
 import { prisma } from "@/lib/prisma"
-import { startOfDay } from "date-fns"
 import { checkAndAwardBadges } from "@/lib/badges"
+import { getSaoPauloQuizDate } from "@/lib/timezone"
 
 export async function POST(req: NextRequest) {
   const session = await auth()
@@ -24,13 +24,13 @@ export async function POST(req: NextRequest) {
   ]
   const dailyNote = normalizedScores.reduce((a: number, b: number) => a + b, 0) / normalizedScores.length
 
-  const today = new Date()
+  const quizDate = getSaoPauloQuizDate()
 
   const quiz = await prisma.dailyQuiz.upsert({
     where: {
       userId_date: {
         userId: session.user.id,
-        date: startOfDay(today),
+        date: quizDate,
       }
     },
     update: {
@@ -40,7 +40,7 @@ export async function POST(req: NextRequest) {
     },
     create: {
       userId: session.user.id,
-      date: startOfDay(today),
+      date: quizDate,
       dietScore, hungerControl, anxietyScore, planAdherence,
       hydration, sleepScore, snackUrge, generalScore,
       dailyNote,

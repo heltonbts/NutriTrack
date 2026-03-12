@@ -8,12 +8,14 @@ import RecentMeals from "@/components/patient/RecentMeals"
 import WeeklyProgress from "@/components/patient/WeeklyProgress"
 import { AnimatedStatItem, AnimatedStatsContainer } from "@/components/AnimatedStats"
 import DashboardHeader from "@/components/DashboardHeader"
+import { getSaoPauloQuizDate } from "@/lib/timezone"
 
 export default async function PatientDashboard() {
   const session = await auth()
   const userId = session!.user.id
 
   const today = new Date()
+  const todayQuizDate = getSaoPauloQuizDate()
 
   const [user, todayMeals, todayQuiz, recentQuizzes] = await Promise.all([
     prisma.user.findUnique({
@@ -34,10 +36,7 @@ export default async function PatientDashboard() {
     prisma.dailyQuiz.findFirst({
       where: {
         userId,
-        date: {
-          gte: startOfDay(today),
-          lte: endOfDay(today),
-        }
+        date: todayQuizDate,
       }
     }),
     prisma.dailyQuiz.findMany({

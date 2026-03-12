@@ -13,11 +13,13 @@ import {
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import DashboardHeader from "@/components/DashboardHeader";
 import { AnimatedStatsContainer, AnimatedStatItem } from "@/components/AnimatedStats";
+import { getSaoPauloQuizDate } from "@/lib/timezone";
 
 export default async function NutritionistDashboard() {
   const session = await auth();
   const nutritionistId = session!.user.id;
   const today = new Date();
+  const todayQuizDate = getSaoPauloQuizDate();
 
   const nutri = await prisma.user.findUnique({
     where: { id: nutritionistId },
@@ -40,7 +42,7 @@ export default async function NutritionistDashboard() {
             include: { comments: true },
           },
           dailyQuiz: {
-            where: { date: { gte: startOfDay(today), lte: endOfDay(today) } },
+            where: { date: todayQuizDate },
           },
         },
       },

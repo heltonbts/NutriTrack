@@ -1,7 +1,5 @@
 "use client";
 
-import { format } from "date-fns";
-import { ptBR } from "date-fns/locale";
 import {
   Bar,
   CartesianGrid,
@@ -14,6 +12,7 @@ import {
 } from "recharts";
 import { TrendingUp, Trophy } from "lucide-react";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
+import { formatInSaoPaulo } from "@/lib/timezone";
 
 type QuizPoint = {
   date: string | Date;
@@ -45,7 +44,7 @@ export default function PatientEvolutionPanel({
     ).length;
 
     return {
-      date: format(quizDate, "dd/MM", { locale: ptBR }),
+      date: formatInSaoPaulo(quizDate, { day: "2-digit", month: "2-digit" }),
       note: Number(quiz.dailyNote.toFixed(1)),
       badges: earnedBadges,
     };

@@ -5,11 +5,11 @@ import {
   LineChart, Line, XAxis, YAxis, Tooltip, ResponsiveContainer,
   RadarChart, PolarGrid, PolarAngleAxis, Radar
 } from "recharts"
-import { format } from "date-fns"
+import { formatInSaoPaulo } from "@/lib/timezone"
 
 export default function ProgressCharts({ quizzes }: { quizzes: any[] }) {
   const lineData = quizzes.map((q) => ({
-    date: format(new Date(q.date), "dd/MM"),
+    date: formatInSaoPaulo(q.date, { day: "2-digit", month: "2-digit" }),
     nota: parseFloat(q.dailyNote.toFixed(1)),
     alimentação: q.dietScore,
     sono: q.sleepScore,

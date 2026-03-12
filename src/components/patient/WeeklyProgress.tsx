@@ -2,13 +2,13 @@
 
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card"
 import { LineChart, Line, XAxis, YAxis, Tooltip, ResponsiveContainer } from "recharts"
-import { format } from "date-fns"
+import { formatInSaoPaulo } from "@/lib/timezone"
 
 export default function WeeklyProgress({ quizzes }: { quizzes: any[] }) {
   const data = [...quizzes]
     .reverse()
     .map((q) => ({
-      date: format(new Date(q.date), "dd/MM"),
+      date: formatInSaoPaulo(q.date, { day: "2-digit", month: "2-digit" }),
       nota: parseFloat(q.dailyNote.toFixed(1)),
     }))
 
