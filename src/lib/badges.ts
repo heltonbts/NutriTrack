@@ -23,8 +23,8 @@ export async function checkAndAwardBadges(userId: string): Promise<{ id: string;
       prisma.badge.findMany(),
     ])
 
-  const earnedIds = new Set(existingBadges.map((b) => b.badgeId))
-  const badgeMap = Object.fromEntries(allBadges.map((b) => [b.id, b]))
+  const earnedIds = new Set(existingBadges.map((b: (typeof existingBadges)[number]) => b.badgeId))
+  const badgeMap = Object.fromEntries(allBadges.map((b: (typeof allBadges)[number]) => [b.id, b]))
 
   const candidates: string[] = []
 
@@ -37,7 +37,7 @@ export async function checkAndAwardBadges(userId: string): Promise<{ id: string;
 
   // Meal streak — consecutive days with at least one meal
   const mealDaySet = new Set(
-    mealLogs.map((m) => startOfDay(new Date(m.loggedAt)).toISOString())
+    mealLogs.map((m: (typeof mealLogs)[number]) => startOfDay(new Date(m.loggedAt)).toISOString())
   )
   if (!earnedIds.has("badge_streak_3") && hasConsecutiveDays(mealDaySet, 3)) {
     candidates.push("badge_streak_3")
