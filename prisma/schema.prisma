@@ -1,0 +1,198 @@
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "postgresql"
+}
+
+model User {
+  id            String    @id @default(cuid())
+  name          String?
+  email         String    @unique
+  emailVerified DateTime?
+  image         String?
+  password      String?
+  role          Role      @default(PATIENT)
+  createdAt     DateTime  @default(now())
+  updatedAt     DateTime  @updatedAt
+
+  // Nutricionista
+  patients      PatientNutritionist[] @relation("NutritionistPatients")
+
+  // Paciente
+  nutritionists PatientNutritionist[] @relation("PatientNutritionists")
+  mealLogs      MealLog[]
+  diaryEntries  DiaryEntry[]
+  dailyQuiz     DailyQuiz[]
+  badges        UserBadge[]
+
+  accounts      Account[]
+  sessions      Session[]
+}
+
+enum Role {
+  NUTRITIONIST
+  PATIENT
+}
+
+model PatientNutritionist {
+  id             String   @id @default(cuid())
+  patientId      String
+  nutritionistId String
+  createdAt      DateTime @default(now())
+
+  patient        User @relation("PatientNutritionists", fields: [patientId], references: [id])
+  nutritionist   User @relation("NutritionistPatients", fields: [nutritionistId], references: [id])
+
+  @@unique([patientId, nutritionistId])
+}
+
+model MealLog {
+  id          String   @id @default(cuid())
+  userId      String
+  photoUrl    String?
+  caption     String?
+  mealType    MealType @default(OTHER)
+  loggedAt    DateTime @default(now())
+  createdAt   DateTime @default(now())
+
+  hungerBefore    Int?  // 1-10
+  satietyAfter    Int?  // 1-10
+  emotion         String?
+  location        String?
+  companions      Companions @default(ALONE)
+
+  comments    MealComment[]
+  user        User @relation(fields: [userId], references: [id])
+}
+
+enum MealType {
+  BREAKFAST
+  MORNING_SNACK
+  LUNCH
+  AFTERNOON_SNACK
+  DINNER
+  SUPPER
+  OTHER
+}
+
+enum Companions {
+  ALONE
+  WITH_OTHERS
+}
+
+model MealComment {
+  id         String   @id @default(cuid())
+  mealLogId  String
+  authorId   String
+  content    String
+  createdAt  DateTime @default(now())
+
+  mealLog    MealLog @relation(fields: [mealLogId], references: [id])
+}
+
+model DiaryEntry {
+  id        String   @id @default(cuid())
+  userId    String
+  content   String
+  mood      String?
+  createdAt DateTime @default(now())
+  date      DateTime @default(now())
+
+  user      User @relation(fields: [userId], references: [id])
+  comments  DiaryComment[]
+}
+
+model DiaryComment {
+  id           String     @id @default(cuid())
+  diaryEntryId String
+  authorId     String
+  content      String
+  createdAt    DateTime   @default(now())
+
+  diaryEntry   DiaryEntry @relation(fields: [diaryEntryId], references: [id])
+}
+
+model DailyQuiz {
+  id        String   @id @default(cuid())
+  userId    String
+  date      DateTime @default(now())
+
+  // Questions 0-10
+  dietScore      Int  // alimentação
+  hungerControl  Int  // controle da fome
+  anxietyScore   Int  // ansiedade
+  planAdherence  Int  // seguiu o planejado
+  hydration      Int  // hidratação
+  sleepScore     Int  // sono
+  snackUrge      Int  // vontade de beliscar
+  generalScore   Int  // avaliação geral
+
+  dailyNote      Float // calculated average
+
+  nutritionistFeedback String?
+  feedbackAt     DateTime?
+
+  user      User @relation(fields: [userId], references: [id])
+
+  @@unique([userId, date])
+}
+
+model Badge {
+  id          String      @id @default(cuid())
+  name        String
+  description String
+  icon        String
+  condition   String      // JSON with condition logic
+
+  userBadges  UserBadge[]
+}
+
+model UserBadge {
+  id        String   @id @default(cuid())
+  userId    String
+  badgeId   String
+  earnedAt  DateTime @default(now())
+
+  user      User  @relation(fields: [userId], references: [id])
+  badge     Badge @relation(fields: [badgeId], references: [id])
+
+  @@unique([userId, badgeId])
+}
+
+// NextAuth models
+model Account {
+  id                String  @id @default(cuid())
+  userId            String
+  type              String
+  provider          String
+  providerAccountId String
+  refresh_token     String?
+  access_token      String?
+  expires_at        Int?
+  token_type        String?
+  scope             String?
+  id_token          String?
+  session_state     String?
+
+  user User @relation(fields: [userId], references: [id], onDelete: Cascade)
+
+  @@unique([provider, providerAccountId])
+}
+
+model Session {
+  id           String   @id @default(cuid())
+  sessionToken String   @unique
+  userId       String
+  expires      DateTime
+  user         User     @relation(fields: [userId], references: [id], onDelete: Cascade)
+}
+
+model VerificationToken {
+  identifier String
+  token      String   @unique
+  expires    DateTime
+
+  @@unique([identifier, token])
+}
