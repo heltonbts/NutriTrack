@@ -26,7 +26,7 @@ export default async function PatientsPage() {
     orderBy: { createdAt: "asc" },
   })
 
-  const patients = patientLinks.map((pl) => pl.patient)
+  const patients = patientLinks.map((pl: (typeof patientLinks)[number]) => pl.patient)
 
   return (
     <div className="space-y-6">
