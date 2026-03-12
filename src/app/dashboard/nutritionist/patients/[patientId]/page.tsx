@@ -6,6 +6,7 @@ import {
   Camera,
   BookOpen,
   ClipboardList,
+  Dumbbell,
   Trophy,
   TrendingUp,
   ChevronRight,
@@ -31,7 +32,7 @@ export default async function PatientDetailPage({
   if (!link) notFound();
   const todayQuizDate = getSaoPauloQuizDate();
 
-  const [patient, quizzes, recentMeals, recentDiary, badges] =
+  const [patient, quizzes, recentMeals, recentDiary, recentWorkouts, badges] =
     await Promise.all([
       prisma.user.findUnique({ where: { id: patientId } }),
       prisma.dailyQuiz.findMany({
@@ -50,6 +51,11 @@ export default async function PatientDetailPage({
         orderBy: { date: "desc" },
         take: 3,
         include: { comments: true },
+      }),
+      prisma.workoutLog.findMany({
+        where: { userId: patientId },
+        orderBy: { performedAt: "desc" },
+        take: 5,
       }),
       prisma.userBadge.findMany({
         where: { userId: patientId },
@@ -81,6 +87,9 @@ export default async function PatientDetailPage({
   const pendingDiary = recentDiary.filter(
     (d: (typeof recentDiary)[number]) => d.comments.length === 0,
   ).length;
+  const pendingWorkouts = recentWorkouts.filter(
+    (workout: (typeof recentWorkouts)[number]) => !workout.nutritionistFeedback,
+  ).length;
 
   return (
     <div className="space-y-6">
@@ -98,7 +107,7 @@ export default async function PatientDetailPage({
       </div>
 
       {/* Stats */}
-      <div className="grid grid-cols-2 lg:grid-cols-4 gap-3 md:gap-4">
+      <div className="grid grid-cols-2 lg:grid-cols-5 gap-3 md:gap-4">
         <Card>
           <CardContent className="pt-6">
             <div className="flex items-center gap-3">
@@ -126,6 +135,22 @@ export default async function PatientDetailPage({
                   {recentMeals.length}
                 </p>
                 <p className="text-sm text-gray-500">Refeições rec.</p>
+              </div>
+            </div>
+          </CardContent>
+        </Card>
+
+        <Card>
+          <CardContent className="pt-6">
+            <div className="flex items-center gap-3">
+              <div className="w-10 h-10 bg-emerald-100 rounded-lg flex items-center justify-center">
+                <Dumbbell className="w-5 h-5 text-emerald-600" />
+              </div>
+              <div>
+                <p className="text-2xl font-bold text-gray-900">
+                  {recentWorkouts.length}
+                </p>
+                <p className="text-sm text-gray-500">Treinos rec.</p>
               </div>
             </div>
           </CardContent>
@@ -220,7 +245,7 @@ export default async function PatientDetailPage({
       )}
 
       {/* Navigation cards */}
-      <div className="grid grid-cols-1 sm:grid-cols-3 gap-3 md:gap-4">
+      <div className="grid grid-cols-1 sm:grid-cols-2 xl:grid-cols-4 gap-3 md:gap-4">
         <Link href={`/dashboard/nutritionist/patients/${patientId}/meals`}>
           <Card className="hover:shadow-md transition-shadow cursor-pointer">
             <CardContent className="pt-6">
@@ -257,6 +282,33 @@ export default async function PatientDetailPage({
                     {pendingDiary > 0 && (
                       <p className="text-xs text-orange-600">
                         {pendingDiary} sem comentário
+                      </p>
+                    )}
+                  </div>
+                </div>
+                <ChevronRight className="w-5 h-5 text-gray-300" />
+              </div>
+            </CardContent>
+          </Card>
+        </Link>
+
+        <Link href={`/dashboard/nutritionist/patients/${patientId}/workouts`}>
+          <Card className="hover:shadow-md transition-shadow cursor-pointer">
+            <CardContent className="pt-6">
+              <div className="flex items-center justify-between">
+                <div className="flex items-center gap-3">
+                  <div className="w-10 h-10 bg-emerald-100 rounded-lg flex items-center justify-center">
+                    <Dumbbell className="w-5 h-5 text-emerald-600" />
+                  </div>
+                  <div>
+                    <p className="font-medium text-gray-900">Treinos</p>
+                    {pendingWorkouts > 0 ? (
+                      <p className="text-xs text-orange-600">
+                        {pendingWorkouts} sem feedback
+                      </p>
+                    ) : (
+                      <p className="text-xs text-gray-500">
+                        {recentWorkouts.length} registros
                       </p>
                     )}
                   </div>

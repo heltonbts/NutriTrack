@@ -3,7 +3,7 @@ import { prisma } from "@/lib/prisma"
 import Link from "next/link"
 import { format } from "date-fns"
 import { ptBR } from "date-fns/locale"
-import { Users, Camera, ClipboardList, BookOpen, ChevronRight, UserPlus } from "lucide-react"
+import { Users, Camera, ClipboardList, BookOpen, ChevronRight, UserPlus, Dumbbell } from "lucide-react"
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card"
 import { Button } from "@/components/ui/button"
 
@@ -17,6 +17,7 @@ export default async function PatientsPage() {
       patient: {
         include: {
           mealLogs: { orderBy: { loggedAt: "desc" }, take: 1 },
+          workoutLogs: { orderBy: { performedAt: "desc" }, take: 1 },
           diaryEntries: { orderBy: { date: "desc" }, take: 1 },
           dailyQuiz: { orderBy: { date: "desc" }, take: 1 },
           badges: true,
@@ -56,6 +57,7 @@ export default async function PatientsPage() {
         <div className="grid gap-4">
           {patients.map((patient: (typeof patients)[number]) => {
             const lastMeal = patient.mealLogs[0]
+            const lastWorkout = patient.workoutLogs[0]
             const lastQuiz = patient.dailyQuiz[0]
             const lastDiary = patient.diaryEntries[0]
 
@@ -88,6 +90,15 @@ export default async function PatientsPage() {
                             </span>
                           </div>
                           <p className="text-xs">última refeição</p>
+                        </div>
+                        <div className="text-center hidden md:block">
+                          <div className="flex items-center gap-1 justify-center mb-0.5">
+                            <Dumbbell className="w-4 h-4 text-emerald-500" />
+                            <span className="font-medium text-gray-900">
+                              {lastWorkout ? format(new Date(lastWorkout.performedAt), "dd/MM", { locale: ptBR }) : "—"}
+                            </span>
+                          </div>
+                          <p className="text-xs">treino</p>
                         </div>
                         <div className="text-center">
                           <div className="flex items-center gap-1 justify-center mb-0.5">

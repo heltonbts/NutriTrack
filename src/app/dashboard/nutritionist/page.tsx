@@ -7,6 +7,7 @@ import {
   Users,
   ClipboardList,
   Camera,
+  Dumbbell,
   TrendingUp,
   AlertCircle,
 } from "lucide-react";
@@ -37,6 +38,11 @@ export default async function NutritionistDashboard() {
             },
             include: { comments: true },
           },
+          workoutLogs: {
+            where: {
+              performedAt: { gte: startOfDay(today), lte: endOfDay(today) },
+            },
+          },
           diaryEntries: {
             where: { date: { gte: startOfDay(today), lte: endOfDay(today) } },
             include: { comments: true },
@@ -63,6 +69,7 @@ export default async function NutritionistDashboard() {
   const activeToday = patients.filter(
     (p: (typeof patients)[number]) =>
       p.mealLogs.length > 0 ||
+      p.workoutLogs.length > 0 ||
       p.diaryEntries.length > 0 ||
       p.dailyQuiz.length > 0,
   ).length;
@@ -81,12 +88,16 @@ export default async function NutritionistDashboard() {
     );
   }, 0);
 
+  const pendingWorkoutFeedback = patients.reduce((acc: number, p: (typeof patients)[number]) => {
+    return acc + p.workoutLogs.filter((workout: (typeof p.workoutLogs)[number]) => !workout.nutritionistFeedback).length;
+  }, 0);
+
   const pendingQuizFeedback = patients.filter(
     (p: (typeof patients)[number]) => p.dailyQuiz.length > 0 && !p.dailyQuiz[0].nutritionistFeedback,
   ).length;
 
   const totalPending =
-    pendingMealComments + pendingDiaryComments + pendingQuizFeedback;
+    pendingMealComments + pendingWorkoutFeedback + pendingDiaryComments + pendingQuizFeedback;
 
   return (
     <div className="space-y-6">
@@ -186,12 +197,16 @@ export default async function NutritionistDashboard() {
             <ul className="divide-y divide-gray-100">
               {patients.map((patient) => {
                 const mealsToday = patient.mealLogs.length;
+                const workoutsToday = patient.workoutLogs.length;
                 const quizToday = patient.dailyQuiz[0];
 
                 // 3. Aplicando as tipagens aqui também
                 const pendingPatient =
                   patient.mealLogs.filter(
                     (m: MealLog) => m.comments.length === 0,
+                  ).length +
+                  patient.workoutLogs.filter(
+                    (workout: (typeof patient.workoutLogs)[number]) => !workout.nutritionistFeedback,
                   ).length +
                   patient.diaryEntries.filter(
                     (d: DiaryEntry) => d.comments.length === 0,
@@ -227,6 +242,13 @@ export default async function NutritionistDashboard() {
                             {mealsToday} hoje
                           </span>
                           <span className="sm:hidden">{mealsToday}</span>
+                        </span>
+                        <span className="flex items-center gap-1">
+                          <Dumbbell className="w-3.5 h-3.5" />
+                          <span className="hidden sm:inline">
+                            {workoutsToday} treino{workoutsToday !== 1 ? "s" : ""}
+                          </span>
+                          <span className="sm:hidden">{workoutsToday}</span>
                         </span>
                         <span className="flex items-center gap-1">
                           <ClipboardList className="w-3.5 h-3.5" />

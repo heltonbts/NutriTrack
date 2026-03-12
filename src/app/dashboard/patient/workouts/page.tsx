@@ -95,6 +95,17 @@ export default async function WorkoutsPage() {
                 ) : (
                   <p className="text-sm text-gray-400">Sem relato adicional.</p>
                 )}
+
+                {workout.nutritionistFeedback && (
+                  <div className="p-3 bg-green-50 rounded-lg border border-green-100">
+                    <p className="text-xs font-medium text-green-700 mb-1">
+                      Feedback da nutricionista:
+                    </p>
+                    <p className="text-sm text-gray-700">
+                      {workout.nutritionistFeedback}
+                    </p>
+                  </div>
+                )}
               </CardContent>
             </Card>
           ))}

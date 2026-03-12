@@ -165,6 +165,8 @@ model WorkoutLog {
   checkedIn    Boolean     @default(true)
   performedAt  DateTime    @default(now())
   createdAt    DateTime    @default(now())
+  nutritionistFeedback String?
+  feedbackAt   DateTime?
 
   user         User        @relation(fields: [userId], references: [id])
 }
