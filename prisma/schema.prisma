@@ -28,9 +28,24 @@ model User {
   dailyQuiz     DailyQuiz[]
   workoutLogs   WorkoutLog[]
   badges        UserBadge[]
+  reminders     Reminder[] @relation("PatientReminders")
+  createdReminders Reminder[] @relation("NutritionistReminders")
 
   accounts      Account[]
   sessions      Session[]
+}
+
+model Reminder {
+  id             String   @id @default(cuid())
+  patientId      String
+  nutritionistId String
+  content        String
+  endDate        DateTime
+  createdAt      DateTime @default(now())
+  updatedAt      DateTime @updatedAt
+
+  patient        User     @relation("PatientReminders", fields: [patientId], references: [id])
+  nutritionist   User     @relation("NutritionistReminders", fields: [nutritionistId], references: [id])
 }
 
 enum Role {

@@ -10,6 +10,7 @@ import WeeklyProgress from "@/components/patient/WeeklyProgress"
 import { Card, CardContent } from "@/components/ui/card"
 import { AnimatedStatItem, AnimatedStatsContainer } from "@/components/AnimatedStats"
 import DashboardHeader from "@/components/DashboardHeader"
+import ReminderAlert from "@/components/patient/ReminderAlert"
 import { getSaoPauloQuizDate } from "@/lib/timezone"
 import { Trophy, TrendingUp } from "lucide-react"
 
@@ -71,6 +72,8 @@ export default async function PatientDashboard() {
         subtitle={format(today, "EEEE, d 'de' MMMM", { locale: ptBR })}
         settingsHref="/dashboard/patient/settings"
       />
+
+      <ReminderAlert />
 
       <AnimatedStatsContainer className="space-y-6">
         <AnimatedStatItem>

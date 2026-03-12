@@ -14,6 +14,7 @@ import {
 } from "lucide-react";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import PatientEvolutionPanel from "@/components/nutritionist/PatientEvolutionPanel";
+import ReminderManager from "@/components/nutritionist/ReminderManager";
 import { getSaoPauloQuizDate } from "@/lib/timezone";
 
 export default async function PatientDetailPage({
@@ -340,6 +341,8 @@ export default async function PatientDetailPage({
           </Card>
         </Link>
       </div>
+
+      <ReminderManager patientId={patientId} />
 
       <PatientEvolutionPanel quizzes={quizzes} badges={badges} />
 
