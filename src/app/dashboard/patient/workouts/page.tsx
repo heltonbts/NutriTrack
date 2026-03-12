@@ -55,7 +55,7 @@ export default async function WorkoutsPage() {
           {workouts.map((workout: (typeof workouts)[number]) => (
             <Card key={workout.id} className="overflow-hidden">
               {workout.photoUrl ? (
-                <div className="relative w-full h-56 sm:h-72">
+                <div className="relative w-full aspect-square">
                   <Image src={workout.photoUrl} alt="Treino" fill className="object-cover" />
                 </div>
               ) : (
