@@ -7,6 +7,7 @@ import Link from "next/link";
 import { ArrowLeft } from "lucide-react";
 import { Card, CardContent } from "@/components/ui/card";
 import MealCommentForm from "@/components/nutritionist/MealCommentForm";
+import MealPhotoGrid from "@/components/MealPhotoGrid";
 
 const mealTypeLabel: Record<string, string> = {
   BREAKFAST: "Café da manhã",
@@ -71,7 +72,16 @@ export default async function PatientMealsPage({
         </Card>
       ) : (
         <div className="space-y-4">
-          {/* 2. Tipamos o meal no map */}
+          {/* Grade de fotos — visão geral estilo Instagram */}
+          {meals.some((m) => m.photoUrl) && (
+            <Card>
+              <CardContent className="p-3">
+                <MealPhotoGrid meals={meals} />
+              </CardContent>
+            </Card>
+          )}
+
+          {/* Detalhes de cada refeição */}
           {meals.map((meal: MealType) => (
             <Card key={meal.id}>
               <CardContent className="pt-6 space-y-4">
