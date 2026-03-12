@@ -17,7 +17,9 @@ export default async function BadgesPage() {
     }),
   ])
 
-  const earnedMap = new Map(earned.map((ub: (typeof earned)[number]) => [ub.badgeId, ub.earnedAt]))
+  const earnedMap = new Map<string, Date>(
+    earned.map((ub: (typeof earned)[number]) => [ub.badgeId, ub.earnedAt])
+  )
 
   return (
     <div className="space-y-6">
