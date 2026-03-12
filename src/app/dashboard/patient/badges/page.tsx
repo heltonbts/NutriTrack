@@ -17,7 +17,7 @@ export default async function BadgesPage() {
     }),
   ])
 
-  const earnedMap = new Map(earned.map((ub) => [ub.badgeId, ub.earnedAt]))
+  const earnedMap = new Map(earned.map((ub: (typeof earned)[number]) => [ub.badgeId, ub.earnedAt]))
 
   return (
     <div className="space-y-6">
@@ -29,7 +29,7 @@ export default async function BadgesPage() {
       </div>
 
       <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-4">
-        {allBadges.map((badge) => {
+        {allBadges.map((badge: (typeof allBadges)[number]) => {
           const earnedAt = earnedMap.get(badge.id)
           const isEarned = !!earnedAt
           return (
