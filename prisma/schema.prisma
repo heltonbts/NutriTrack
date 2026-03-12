@@ -26,6 +26,7 @@ model User {
   mealLogs      MealLog[]
   diaryEntries  DiaryEntry[]
   dailyQuiz     DailyQuiz[]
+  workoutLogs   WorkoutLog[]
   badges        UserBadge[]
 
   accounts      Account[]
@@ -83,6 +84,20 @@ enum Companions {
   WITH_OTHERS
 }
 
+enum WorkoutType {
+  WALK
+  RUN
+  BIKE
+  GYM
+  STRENGTH
+  HIIT
+  YOGA
+  PILATES
+  SWIMMING
+  SPORTS
+  OTHER
+}
+
 model MealComment {
   id         String   @id @default(cuid())
   mealLogId  String
@@ -138,6 +153,20 @@ model DailyQuiz {
   user      User @relation(fields: [userId], references: [id])
 
   @@unique([userId, date])
+}
+
+model WorkoutLog {
+  id           String      @id @default(cuid())
+  userId       String
+  photoUrl     String?
+  notes        String?
+  activityType WorkoutType @default(OTHER)
+  feeling      String?
+  checkedIn    Boolean     @default(true)
+  performedAt  DateTime    @default(now())
+  createdAt    DateTime    @default(now())
+
+  user         User        @relation(fields: [userId], references: [id])
 }
 
 model Badge {

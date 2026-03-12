@@ -14,6 +14,7 @@ export default async function ProgressPage() {
   })
 
   const totalMeals = await prisma.mealLog.count({ where: { userId } })
+  const totalWorkouts = await prisma.workoutLog.count({ where: { userId } })
   const totalDiaries = await prisma.diaryEntry.count({ where: { userId } })
   const totalQuizzes = await prisma.dailyQuiz.count({ where: { userId } })
 
@@ -28,9 +29,10 @@ export default async function ProgressPage() {
         <p className="text-gray-500">Acompanhe seu progresso ao longo do tempo</p>
       </div>
 
-      <div className="grid grid-cols-2 md:grid-cols-4 gap-3 md:gap-4">
+      <div className="grid grid-cols-2 md:grid-cols-5 gap-3 md:gap-4">
         {[
           { label: "Refeições registradas", value: totalMeals, emoji: "🍽️" },
+          { label: "Treinos registrados", value: totalWorkouts, emoji: "🏋️" },
           { label: "Relatos no diário", value: totalDiaries, emoji: "📔" },
           { label: "Questionários respondidos", value: totalQuizzes, emoji: "✅" },
           { label: "Nota média", value: avgNote.toFixed(1), emoji: "⭐" },

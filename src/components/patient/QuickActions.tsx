@@ -1,13 +1,14 @@
 import Link from "next/link"
-import { Camera, BookOpen, ClipboardList, CheckCircle } from "lucide-react"
+import { Camera, BookOpen, ClipboardList, CheckCircle, Dumbbell } from "lucide-react"
 import { Card } from "@/components/ui/card"
 
 interface QuickActionsProps {
   hasQuizToday: boolean
   mealCount: number
+  workoutCount: number
 }
 
-export default function QuickActions({ hasQuizToday, mealCount }: QuickActionsProps) {
+export default function QuickActions({ hasQuizToday, mealCount, workoutCount }: QuickActionsProps) {
   const actions = [
     {
       label: "Registrar Refeição",
@@ -16,6 +17,14 @@ export default function QuickActions({ hasQuizToday, mealCount }: QuickActionsPr
       href: "/dashboard/patient/meals/new",
       color: "bg-blue-500",
       bg: "bg-blue-50",
+    },
+    {
+      label: "Check-in de Treino",
+      description: workoutCount > 0 ? `${workoutCount} hoje` : "Registrar treino",
+      icon: Dumbbell,
+      href: "/dashboard/patient/workouts/new",
+      color: "bg-emerald-500",
+      bg: "bg-emerald-50",
     },
     {
       label: "Escrever no Diário",
@@ -37,7 +46,7 @@ export default function QuickActions({ hasQuizToday, mealCount }: QuickActionsPr
   ]
 
   return (
-    <div className="grid grid-cols-3 gap-3">
+    <div className="grid grid-cols-2 lg:grid-cols-4 gap-3">
       {actions.map((action) => {
         const Icon = action.icon
         return (

@@ -6,16 +6,15 @@ import { usePathname } from "next/navigation"
 import { signOut } from "next-auth/react"
 import { cn } from "@/lib/utils"
 import {
-  Home, Camera, BookOpen, ClipboardList, Trophy, TrendingUp, LogOut
+  Home, Camera, BookOpen, ClipboardList, LogOut, Dumbbell
 } from "lucide-react"
 
 const navItems = [
   { href: "/dashboard/patient", label: "Início", icon: Home },
   { href: "/dashboard/patient/meals", label: "Refeições", icon: Camera },
+  { href: "/dashboard/patient/workouts", label: "Treino", icon: Dumbbell },
   { href: "/dashboard/patient/diary", label: "Diário", icon: BookOpen },
   { href: "/dashboard/patient/quiz", label: "Quiz", icon: ClipboardList },
-  { href: "/dashboard/patient/progress", label: "Evolução", icon: TrendingUp },
-  { href: "/dashboard/patient/badges", label: "Conquistas", icon: Trophy },
 ]
 
 interface SidebarUser {
@@ -26,6 +25,10 @@ interface SidebarUser {
 
 export default function PatientSidebar({ user }: { user: SidebarUser }) {
   const pathname = usePathname()
+  const isActiveItem = (href: string) =>
+    href === "/dashboard/patient"
+      ? pathname === href
+      : pathname === href || pathname.startsWith(`${href}/`)
 
   const Avatar = ({ size }: { size: "sm" | "lg" }) => {
     const dim = size === "lg" ? "w-10 h-10" : "w-7 h-7"
@@ -71,7 +74,7 @@ export default function PatientSidebar({ user }: { user: SidebarUser }) {
         <nav className="flex-1 p-4 space-y-1">
           {navItems.map((item) => {
             const Icon = item.icon
-            const isActive = pathname === item.href
+            const isActive = isActiveItem(item.href)
             return (
               <Link
                 key={item.href}
@@ -105,7 +108,7 @@ export default function PatientSidebar({ user }: { user: SidebarUser }) {
       <nav className="md:hidden fixed bottom-0 left-0 right-0 z-50 bg-white border-t border-gray-200 flex">
         {navItems.map((item) => {
           const Icon = item.icon
-          const isActive = pathname === item.href
+          const isActive = isActiveItem(item.href)
           return (
             <Link
               key={item.href}
