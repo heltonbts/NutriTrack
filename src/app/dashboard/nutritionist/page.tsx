@@ -12,33 +12,32 @@ export default async function NutritionistDashboard() {
   const nutritionistId = session!.user.id
   const today = new Date()
 
-  const [nutri, patientLinks] = await Promise.all([
-    prisma.user.findUnique({
-      where: { id: nutritionistId },
-      select: { name: true, image: true },
-    }),
-    prisma.patientNutritionist.findMany({
-      where: { nutritionistId },
-      include: {
-        patient: {
-          include: {
-            mealLogs: {
-              where: { loggedAt: { gte: startOfDay(today), lte: endOfDay(today) } },
-              include: { comments: true },
-            },
-            diaryEntries: {
-              where: { date: { gte: startOfDay(today), lte: endOfDay(today) } },
-              include: { comments: true },
-            },
-            dailyQuiz: {
-              where: { date: { gte: startOfDay(today), lte: endOfDay(today) } },
-            },
+  const nutri = await prisma.user.findUnique({
+    where: { id: nutritionistId },
+    select: { name: true, image: true },
+  })
+
+  const patientLinks = await prisma.patientNutritionist.findMany({
+    where: { nutritionistId },
+    include: {
+      patient: {
+        include: {
+          mealLogs: {
+            where: { loggedAt: { gte: startOfDay(today), lte: endOfDay(today) } },
+            include: { comments: true },
+          },
+          diaryEntries: {
+            where: { date: { gte: startOfDay(today), lte: endOfDay(today) } },
+            include: { comments: true },
+          },
+          dailyQuiz: {
+            where: { date: { gte: startOfDay(today), lte: endOfDay(today) } },
           },
         },
       },
-      orderBy: { createdAt: "asc" },
-    }),
-  ])
+    },
+    orderBy: { createdAt: "asc" },
+  })
 
   const patients = patientLinks.map((pl) => pl.patient)
 
