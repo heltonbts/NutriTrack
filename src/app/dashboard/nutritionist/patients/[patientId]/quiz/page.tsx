@@ -70,7 +70,7 @@ export default async function PatientQuizPage({
         </Card>
       ) : (
         <div className="space-y-4">
-          {quizzes.map((quiz) => (
+          {quizzes.map((quiz: (typeof quizzes)[number]) => (
             <Card key={quiz.id}>
               <CardContent className="pt-6 space-y-4">
                 <div className="flex items-center justify-between">
